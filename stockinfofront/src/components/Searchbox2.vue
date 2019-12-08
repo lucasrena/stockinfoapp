@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'Searchbox',
+  name: 'Searchbox2',
   data () {
     return {
       search: '',
@@ -27,7 +27,8 @@ export default {
   },
   methods: {
     searchCompanies () {
-      this.$http.plain.get('/companies')
+      debugger;
+      this.$http.get('/companies')
         .then(response => this.result = response.body)
         .catch(error => this.result = error)
     }

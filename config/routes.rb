@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
+  namespace :api do
+      resources :companies
+  end
+    
   get 'pages/welcome'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'pages#welcome'
+
+  post 'get', controller: :companies, action: :index
 end
