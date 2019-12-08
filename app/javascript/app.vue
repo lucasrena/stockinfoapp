@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <searchbox/>
-    <p>{{ message }}</p>
   </div>
 </template>
 
