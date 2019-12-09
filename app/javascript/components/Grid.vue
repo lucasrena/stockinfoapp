@@ -12,8 +12,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="entry in filteredgridData">
-        <td v-for="key in columns">
+      <tr v-for="entry in filteredgridData" @click="getDetails(entry.id)">
+        <td v-for="key in columns">  
           {{entry[key]}}
         </td>
       </tr>
@@ -71,6 +71,9 @@ export default {
     sortBy: function (key) {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
+    },
+    getDetails(id){
+      console.log(id);  
     }
   }
 }

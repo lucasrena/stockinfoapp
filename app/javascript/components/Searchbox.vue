@@ -29,7 +29,6 @@ export default {
   computed: {
     gridData: function(){
       if(this.result != null){
-        // var obj = JSON.parse(this.result);
         return this.result;
       }
       else{
