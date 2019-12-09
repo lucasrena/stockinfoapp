@@ -1,36 +1,46 @@
 <template>
   <div class="search-wrapper">
+    <div>
+      <p>Search company:</p>
+    </div>
     <input type="text" v-model="search" placeholder="Search by name..."/>
-    <label>Search company:</label>
     <button v-on:click="searchCompanies">Search</button>    
     <div>
-      <p>Message is: {{ search }}</p>
-      <p>Response is: {{ result }}</p>
+      <grid :gridData="gridData" :columns="gridColumns"></grid>
     </div>
   </div>  
 </template>
 
 <script>
+import Grid from './Grid.vue'
+
 export default {
+  components: {
+    Grid
+  },
   name: 'Searchbox',
   data () {
     return {
       search: '',
-      result: ''
+      result: [],
+      gridColumns: ["name","symbol"]
     }
   },
-  created () {
-    //this.checkSignedIn()
-  },
-  updated () {
-    //this.checkSignedIn()
-  },
-  mounted: function () {
-    console.log(this.$http);
+  computed: {
+    gridData: function(){
+      if(this.result != null){
+        // var obj = JSON.parse(this.result);
+        return this.result;
+      }
+      else{
+        return [];
+      }
+    }
   },
   methods: {
     searchCompanies () {
-      this.$http.get('/api/companies')
+      console.log(this.search);
+      this.$http.get('/api/companies/', { params :{ name : this.search }})
         .then(response => this.result = response.body)
         .catch(error => this.result = error.body)
     }

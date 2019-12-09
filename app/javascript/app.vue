@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>StockInfo App</h1>
     <searchbox/>
   </div>
 </template>
