@@ -36,9 +36,11 @@ export default {
       }
     }
   },
+  mounted(){    
+      console.log(this.$http);
+  },
   methods: {
     searchCompanies () {
-      console.log(this.search);
       this.$http.get('/api/companies/', { params :{ name : this.search }})
         .then(response => this.result = response.body)
         .catch(error => this.result = error.body)

@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  namespace :api do
+  scope '/api' do
       resources :companies
   end
     
   get 'pages/welcome'
   root 'pages#welcome'
 
-  post 'get', controller: :companies, action: :index
+  # get 'api/companies', controller: :companies, action: :index
+
+
 end

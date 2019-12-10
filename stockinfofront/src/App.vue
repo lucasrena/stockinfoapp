@@ -1,11 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
 
 <script>
+import TurbolinksAdapter from 'vue-turbolinks';
+import VueResource from 'vue-resource';
+import Vue from 'vue/dist/vue.esm';
+
+Vue.use(VueResource);
+Vue.use(TurbolinksAdapter);
+
 export default {
   name: 'App'
 }
