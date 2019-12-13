@@ -1,24 +1,16 @@
-# README
+# README - StockInfoApp - back-end
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the backend application for the StockInfo App. To open the StockInfoApp, make sure to also get the front-end application up and running.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Build Setup
+``` bash
+# install dependencies
+  bundle install
+  
+# create database
+  rake db:create
+  rake db:migrate
+   
+# import companies data from csv (this could take a couple of minutes) 
+  rake import_companies  
+```
