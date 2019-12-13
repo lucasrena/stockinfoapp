@@ -20,10 +20,9 @@ class CompaniesController < ApiController
 
     # GET /companies/:id/history
     def history
-        # OLD API Token: pk_2949e1678ef0494b9dbc13eafbf24b60 
-
+        
         url = 'https://cloud.iexapis.com/stable/stock/'
-        url << @company.symbol.sub!("^","-")
+        url << @company.symbol.sub("^","-")
         url << '/chart/1m/?token=pk_73fb351034574773a81b041dc69eb111'
 
         response = RestClient::Request.execute(
@@ -43,7 +42,7 @@ class CompaniesController < ApiController
                     close: item['close']            
                 }
         end
-        
+                       
         render json: { 
             company: @company,
             history: history           
