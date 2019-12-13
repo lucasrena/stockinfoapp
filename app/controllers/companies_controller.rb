@@ -2,15 +2,14 @@ class CompaniesController < ApiController
     before_action :set_company, only: [:show, :history]
     # GET /companies
     def index
-        if params[:name] != nil && params[:symbol] == nil
-            @companies = Company.where("name like ?", "%#{params[:name]}%")
-        elsif params[:symbol] != nil && params[:name] == nil
-            @companies = Company.where("symbol like ?", "%#{params[:symbol]}%")
-        elsif params[:symbol] != nil && params[:name] != nil
-            @companies = Company.where("symbol like ? and name like ?", "%#{params[:symbol]}%", "%#{params[:name]}%")
+        if params[:name] != nil
+            @companies = Company.where("symbol like ? or name like ?", "%#{params[:name]}%", "%#{params[:name]}%")
         else
             @companies = Company.all
         end
+        
+        @companies = @companies.order :name
+
         render json: @companies
     end
     
@@ -21,27 +20,42 @@ class CompaniesController < ApiController
 
     # GET /companies/:id/history
     def history
-        # API Token: pk_2949e1678ef0494b9dbc13eafbf24b60 
-        # Account No. ab3d8040e21beeeb8c909d586b332245 
+        # OLD API Token: pk_2949e1678ef0494b9dbc13eafbf24b60 
 
         url = 'https://cloud.iexapis.com/stable/stock/'
-        url << @company.symbol
-        url << '/chart/1mm/?token=pk_2949e1678ef0494b9dbc13eafbf24b60'
+        url << @company.symbol.sub!("^","-")
+        url << '/chart/1m/?token=pk_73fb351034574773a81b041dc69eb111'
 
         response = RestClient::Request.execute(
             method: :get,
             url: url
         )
+        
+        data = JSON.parse(response.body)
 
-        render json:response
+        history = []
+        data.each do |item|            
+            history << { 
+                    x: Date.parse(item['date']).to_time.to_i*1000,
+                    open: item['open'],
+                    high: item['high'],
+                    low: item['low'],
+                    close: item['close']            
+                }
+        end
+        
+        render json: { 
+            company: @company,
+            history: history           
+        }.to_json
     end
     
     private
-    # Use callbacks to share common setup or constraints between actions.
+    
     def set_company
         @company = Company.find(params[:id])
     end
-    # Only allow a trusted parameters
+    
     def company_params
         params.require(:company).permit(:name, :symbol)
     end
